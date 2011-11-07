@@ -1,5 +1,6 @@
 require "bongo/version"
+require "active_support/core_ext/module/attribute_accessors"
 
 module Bongo
-  # Your code goes here...
+  mattr_accessor :db
 end
