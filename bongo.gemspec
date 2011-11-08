@@ -21,5 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "em-mongo", "~> 0.4.1"
   s.add_runtime_dependency "activemodel", "~> 3.1"
   s.add_runtime_dependency "eventmachine", "~> 1.0.0.beta.4"
+  s.add_runtime_dependency "virtus", "~> 0.0.9"
   s.add_development_dependency "em-spec", "~> 0.2.5"
 end
