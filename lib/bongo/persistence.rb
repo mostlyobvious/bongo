@@ -1,14 +1,16 @@
 require "bongo"
+require "virtus"
+require "em-mongo"
 require "active_support/core_ext/hash/indifferent_access"
 require "active_support/inflector"
 
 module Bongo
   module Persistence
-    extend ActiveSupport::Concern
-
-    included do
-      attr_writer   :db
-      attr_accessor :attributes
+    def self.included(base)
+      base.extend ClassMethods
+      base.send(:include, Virtus) # order is important
+      base.send(:include, InstanceMethods)
+      base.send(:attr_writer, :db)
     end
 
     module InstanceMethods
@@ -44,7 +46,7 @@ module Bongo
 
       protected
       def document
-        attributes || {}
+        attributes
       end
 
       def insert(opts = {})
@@ -92,8 +94,7 @@ module Bongo
         defer  = EM::DefaultDeferrable.new
         finder = collection.find_one(id)
         finder.callback do |document|
-          instance = self.new
-          instance.attributes = ActiveSupport::HashWithIndifferentAccess.new(document)
+          instance = self.new(document)
           defer.succeed(instance)
         end
         finder.errback  { defer.fail }

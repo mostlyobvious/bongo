@@ -1,7 +1,9 @@
 require "test_helper"
 
 class TestEvent
-  include Bongo::Persistence
+  include Bongo
+
+  attribute :name, String
 end
 
 class TestPersistence < Test::Unit::TestCase
@@ -10,15 +12,15 @@ class TestPersistence < Test::Unit::TestCase
 
   def test_insert
     event = TestEvent.new
-    event.attributes = {name: 'insert operation'}
-    assert event.new_record?
+    event.name = 'insert operation'
+    assert event.new_record?, 'is not a new record'
 
     defer = event.save
     defer.callback do |id|
-      assert !event.new_record?
+      assert !event.new_record?, 'is a new record'
 
       TestEvent.find(id).callback do |ev|
-        assert_equal 'insert operation', ev.attributes[:name]
+        assert_equal 'insert operation', ev.name
         done
       end
     end
@@ -26,15 +28,15 @@ class TestPersistence < Test::Unit::TestCase
 
   def test_passing_safe_insert
     event = TestEvent.new
-    event.attributes = {name: 'insert operation'}
-    assert event.new_record?
+    event.name = 'insert operation'
+    assert event.new_record?, 'is not a new record'
 
     defer = event.save!
     defer.callback do |id|
-      assert !event.new_record?
+      assert !event.new_record?, 'is a new record'
 
       TestEvent.find(id).callback do |ev|
-        assert_equal 'insert operation', ev.attributes[:name]
+        assert_equal 'insert operation', ev.name
         done
       end
     end

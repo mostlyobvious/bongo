@@ -1,7 +1,7 @@
 require "test_helper"
 
 class TestEvent
-  include Bongo::Attributes
+  include Bongo
 
   attribute :name, String
 end
