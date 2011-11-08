@@ -5,28 +5,38 @@ class TestEvent
 end
 
 class TestPersistence < Test::Unit::TestCase
-  include DatabaseHelper
   include EventedHelper
+  include DatabaseHelper
 
   def test_insert
     event = TestEvent.new
+    event.attributes = {name: 'insert operation'}
     assert event.new_record?
 
     defer = event.save
-    defer.callback do
+    defer.callback do |id|
       assert !event.new_record?
-      done
+
+      TestEvent.find(id).callback do |ev|
+        assert_equal 'insert operation', ev.attributes[:name]
+        done
+      end
     end
   end
 
   def test_passing_safe_insert
     event = TestEvent.new
+    event.attributes = {name: 'insert operation'}
     assert event.new_record?
 
     defer = event.save!
-    defer.callback do
+    defer.callback do |id|
       assert !event.new_record?
-      done
+
+      TestEvent.find(id).callback do |ev|
+        assert_equal 'insert operation', ev.attributes[:name]
+        done
+      end
     end
   end
 
@@ -37,9 +47,14 @@ class TestPersistence < Test::Unit::TestCase
     assert event.new_record?
 
     defer = event.save!
-    defer.errback do
+    defer.errback do |id|
       assert event.new_record?
-      done
+      assert_not_nil id
+
+      TestEvent.find(id).callback do |ev|
+        assert_nil id
+        done
+      end
     end
   end
 end
