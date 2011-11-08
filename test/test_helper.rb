@@ -1,3 +1,4 @@
+require "bundler/setup"
 require "test/unit"
 require "em-spec/test"
 require "active_support/concern"
