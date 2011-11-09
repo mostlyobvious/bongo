@@ -83,7 +83,7 @@ module Bongo
       end
 
       def collection_name
-        self.class.name.tableize
+        self.name.tableize
       end
 
       def collection

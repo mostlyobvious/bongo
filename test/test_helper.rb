@@ -16,7 +16,7 @@ module DatabaseHelper
   def teardown
     Bongo.db.collections.callback do |collections|
       collections.select { |c| c.name !~ /^system\./ }.each do |collection|
-        collection.remove
+        collection.drop
       end
     end
     super
@@ -28,7 +28,7 @@ module EventedHelper
 
   included do
     include EM::Test
-    default_timeout(0.5)
+    default_timeout(0.75)
   end
 
   def skip(*args)
