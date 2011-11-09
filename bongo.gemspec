@@ -23,5 +23,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "eventmachine", "~> 1.0.0.beta.4"
   s.add_runtime_dependency "virtus", "~> 0.0.9"
   s.add_development_dependency "em-spec", "~> 0.2.5"
-  s.add_development_dependency "rake"
+  s.add_development_dependency "rake", "~> 0.9.2"
+  s.add_development_dependency "minitest", "~> 2.7.0"
+  s.add_development_dependency "turn", "~> 0.8.2"
 end

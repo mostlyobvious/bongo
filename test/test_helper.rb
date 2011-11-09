@@ -1,5 +1,7 @@
 require "bundler/setup"
-require "test/unit"
+gem "minitest"
+require "turn"
+require "minitest/autorun"
 require "em-spec/test"
 require "active_support/concern"
 require "bongo/persistence"

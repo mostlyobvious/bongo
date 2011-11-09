@@ -6,7 +6,7 @@ class TestEvent
   attribute :name, String
 end
 
-class TestAttributes < Test::Unit::TestCase
+class TestAttributes < MiniTest::Unit::TestCase
   def test_attributes_in_initialze
     ev = TestEvent.new(name: 'attribute set')
     assert_equal 'attribute set', ev.name

@@ -6,7 +6,7 @@ class TestEvent
   attribute :name, String
 end
 
-class TestPersistence < Test::Unit::TestCase
+class TestPersistence < MiniTest::Unit::TestCase
   include EventedHelper
   include DatabaseHelper
 
