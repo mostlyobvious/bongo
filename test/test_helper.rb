@@ -6,7 +6,6 @@ require "em-spec/test"
 require "active_support/concern"
 require "bongo/persistence"
 
-
 module DatabaseHelper
   def setup
     Bongo.db = EM::Mongo::Connection.new.db("bongo_test")
@@ -16,6 +15,7 @@ module DatabaseHelper
   def teardown
     Bongo.db.collections.callback do |collections|
       collections.select { |c| c.name !~ /^system\./ }.each do |collection|
+        collection.drop_indexes
         collection.drop
       end
     end
@@ -35,4 +35,11 @@ module EventedHelper
     done
     super
   end
+end
+
+class TestEvent
+  include Bongo
+
+  attribute :name, String
+  index :name, unique: true
 end

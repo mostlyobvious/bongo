@@ -41,7 +41,7 @@ module Bongo
       end
 
       def destroy!(opts = {})
-        destory(opts.merge(safe: true))
+        destroy(opts.merge(safe: true))
       end
 
       protected

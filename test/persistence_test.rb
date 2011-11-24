@@ -1,11 +1,5 @@
 require "test_helper"
 
-class TestEvent
-  include Bongo
-
-  attribute :name, String
-end
-
 class TestPersistence < MiniTest::Unit::TestCase
   include EventedHelper
   include DatabaseHelper
